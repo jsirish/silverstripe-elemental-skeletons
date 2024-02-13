@@ -4,7 +4,6 @@ namespace DNADesign\ElementalSkeletons\Models;
 
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\DropdownField;
-use DNADesign\Elemental\Extensions\ElementalAreasExtension;
 
 /**
  * Creates a archetype of elements that can be used as a template that is defined
@@ -35,7 +34,7 @@ class SkeletonPart extends DataObject {
 		$fields = parent::getCMSFields();
 
 		$pageType = $this->Skeleton()->PageType;
-		$elementTypes = ElementalAreasExtension::get_available_types_for_class($pageType);
+		$elementTypes = singleton($pageType)->getElementalTypes();
 
 		$fields->removeByName('Sort');
 		$fields->removeByName('SkeletonID');
@@ -45,6 +44,6 @@ class SkeletonPart extends DataObject {
 	}
 
 	public function ElementName() {
-		return singleton($this->ElementType)->getElementType();
+		return singleton($this->ElementType)->getType();
 	}
 }
